@@ -4,7 +4,7 @@ This is a repository for a NuGet package. A library of general extension methods
 # Getting Started
 There's nothing to it:
 1.	Reference the package
-2.	Use types the new types in namespaces under the Centrica EMT root
+2.	Use types the new types in namespaces under the Evoq root
 3.	Profit!
 
 # Build and Test
