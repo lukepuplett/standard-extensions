@@ -3,12 +3,12 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>Evoq</RootNamespace>
-    <AssemblyName>Evoq.StandardExtensions.StandardLib</AssemblyName>
+    <AssemblyName>Evoq.Extensions.StandardLib</AssemblyName>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <PackageId>Evoq.StandardExtensions</PackageId>
+    <PackageId>Evoq.Extensions</PackageId>
     <Authors>Evoq Limited</Authors>
     <Company>Evoq Limited</Company>
-    <Product>Evoq.StandardExtensions</Product>
+    <Product>Evoq.Extensions</Product>
     <Description>A library of general extension methods for many common uses across any .NET project.</Description>
     <Copyright>Copyright © Evoq Limited 2018</Copyright>
     <PackageTags>extension methods, helpers, date, time, range</PackageTags>
