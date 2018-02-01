@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Dynamic;
-using System.Text.RegularExpressions;
-using System.ComponentModel;
 
 namespace System
 {
@@ -1049,7 +1045,7 @@ namespace System
         /// <summary>
         /// Returns whether the exception is not one of the critical runtime exceptions.
         /// </summary>
-        /// <see cref="https://stackoverflow.com/questions/5507836/which-types-of-exception-not-to-catch/5508733#5508733"/>
+        /// <seealso cref="https://stackoverflow.com/questions/5507836/which-types-of-exception-not-to-catch/5508733#5508733"/>
         /// <param name="exception">The exception.</param>
         /// <returns>True if the exception is not one of the critical runtime exceptions that should never be handled in user code.</returns>
         [Obsolete("This method is intended to be used to make existing badly writtern catch-all exception code, less bad.", false)]
