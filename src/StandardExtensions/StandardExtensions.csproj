@@ -11,7 +11,7 @@
     <Product>Evoq.Extensions</Product>
     <Description>A library of general extension methods for many common uses across any .NET project.</Description>
     <Copyright>Copyright © Evoq Limited 2018</Copyright>
-    <PackageTags>extension methods, helpers, date, time, range</PackageTags>
+    <PackageTags>extension methods, helpers</PackageTags>
     <PackageReleaseNotes>Initial .NET Standard 2.0 package.</PackageReleaseNotes>
     <Version>1.0.0</Version>
   </PropertyGroup>
