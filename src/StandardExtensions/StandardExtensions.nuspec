@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Evoq.Extensions</id>
+    <version>1.0.1</version>
+    
+    <title>Evoq Extensions</title>
+    <summary>Contains useful extension methods for BCL types and generic collections.</summary>
+    <description>A library of general extension methods for many common uses across any .NET project.</description>
+
+    <authors>Evoq Limited</authors>
+    <owners>Evoq Limited</owners>
+    
+    <projectUrl>https://github.com/lukepuplett/standard-extensions</projectUrl>
+    <licenseUrl>https://github.com/lukepuplett/standard-extensions/blob/master/LICENSE</licenseUrl>    
+        
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <releaseNotes>Initial .NET Standard 2.0 package.</releaseNotes>
+    <copyright>Copyright © Evoq Limited 2018</copyright>
+    <tags>extension methods, helpers</tags>
+    
+  </metadata>
+  <files>
+    <file src="bin\Release\netstandard2.0\*.dll" target="lib\netstandard2.0" />
+    <file src="bin\Release\netstandard2.0\*.xml" target="lib\netstandard2.0" />
+  </files>
+</package>
