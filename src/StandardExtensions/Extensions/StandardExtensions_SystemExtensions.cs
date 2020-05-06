@@ -36,6 +36,16 @@ namespace System
         #region DateTimeOffset
 
         /// <summary>
+        /// Gets the difference between this instant and now, positive if instant has passed.
+        /// </summary>
+        /// <param name="instance">The instance.</param>
+        /// <returns>A TimeSpan instance.</returns>
+        public static TimeSpan DiffNow(this DateTimeOffset instance)
+        {
+            return DateTimeOffset.Now - instance;
+        }
+
+        /// <summary>
         /// Compares this DateTimeOffset with another for equality within a specified tolerance.
         /// </summary>
         /// <param name="instance">The instance.</param>
