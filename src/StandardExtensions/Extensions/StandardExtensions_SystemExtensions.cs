@@ -584,6 +584,19 @@ namespace System
             return sb.ToString().Trim();
         }
 
+
+        /// <summary>
+        /// Turns a string that looks like   this into a String That Looks Like This.
+        /// </summary>       
+        /// <remarks>
+        /// Also normalizes the spacing to single spaces.
+        /// </remarks> 
+        /// <returns>A string.</returns>
+        public static string ToTitleCase(this string instance)
+        {
+            return String.Join(" ", instance.ToUpper().SplitWords().Select(w => w.ToLowerTail()));
+        }
+
         /// <summary>
         /// Capitalizes just the first letter of the string and leaves the others as is.
         /// </summary>        

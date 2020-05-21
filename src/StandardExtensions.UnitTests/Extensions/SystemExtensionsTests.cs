@@ -254,6 +254,13 @@ namespace StandardExtensions.UnitTests
         }
 
         [TestMethod]
+        public void String_ToTitleCase_when__double_quote_char__then__works()
+        {
+            string actual = "i love lambrusco bianco".ToTitleCase();
+            Assert.AreEqual("I Love Lambrusco Bianco", actual);
+        }
+
+        [TestMethod]
         public void Guid_IfEmpty__when__Guid_is_empty__then__returns_new_guid()
         {
             var empty = Guid.Empty;
