@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Evoq.Extensions</id>
-    <version>1.2.1</version>
+    <version>1.2.2</version>
     
     <title>Evoq Extensions</title>
     <summary>Contains useful extension methods for BCL types and generic collections.</summary>
