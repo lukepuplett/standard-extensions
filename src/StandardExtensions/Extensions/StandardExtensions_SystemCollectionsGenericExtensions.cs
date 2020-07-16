@@ -19,7 +19,7 @@ namespace System.Collections.Generic
         /// <returns>
         /// The modified list.
         /// </returns>
-        public static List<T> Add<T>(this List<T> list, T item)
+        public static List<T> WithAdd<T>(this List<T> list, T item)
         {
             list.Add(item);
 

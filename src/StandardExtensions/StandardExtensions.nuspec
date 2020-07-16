@@ -15,7 +15,7 @@
     <licenseUrl>https://github.com/lukepuplett/standard-extensions/blob/master/LICENSE</licenseUrl>    
         
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <releaseNotes>Added List.Add() that returns the list.</releaseNotes>
+    <releaseNotes>Renamed List.Add() that returns the list to WithAdd.</releaseNotes>
     <copyright>Copyright © Evoq Limited 2020</copyright>
     <tags>extension methods, helpers</tags>
     
