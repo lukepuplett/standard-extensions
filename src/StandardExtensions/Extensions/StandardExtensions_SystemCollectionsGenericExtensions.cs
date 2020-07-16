@@ -12,6 +12,21 @@ namespace System.Collections.Generic
         private static readonly Random _rng = new Random();
 
         /// <summary>
+        /// Adds an item and returns the list for chaining.
+        /// </summary>
+        /// <param name="list">The list instance.</param>
+        /// <param name="item">The item to add.</param>
+        /// <returns>
+        /// The modified list.
+        /// </returns>
+        public static List<T> Add<T>(this List<T> list, T item)
+        {
+            list.Add(item);
+
+            return list;
+        }
+
+        /// <summary>
         /// Compares this byte array with another.
         /// </summary>
         /// <param name="a">a.</param>

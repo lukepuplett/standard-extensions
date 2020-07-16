@@ -254,9 +254,16 @@ namespace StandardExtensions.UnitTests
         }
 
         [TestMethod]
-        public void String_ToTitleCase_when__double_quote_char__then__works()
+        public void String_ToTitleCase_when__all_lower__then__All_Lower()
         {
             string actual = "i love lambrusco bianco".ToTitleCase();
+            Assert.AreEqual("I Love Lambrusco Bianco", actual);
+        }
+
+        [TestMethod]
+        public void String_ToTitleCase_when__ALL_UPPER__then__All_Upper()
+        {
+            string actual = "I LOVE LAMBRUSCO BIANCO".ToTitleCase();
             Assert.AreEqual("I Love Lambrusco Bianco", actual);
         }
 
