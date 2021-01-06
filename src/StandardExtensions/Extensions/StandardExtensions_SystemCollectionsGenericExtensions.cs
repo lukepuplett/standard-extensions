@@ -93,6 +93,7 @@ namespace System.Collections.Generic
         {
             if (instance == null)
                 return new List<T>();
+
             return instance;
         }
 
@@ -363,9 +364,21 @@ namespace System.Collections.Generic
         /// <param name="first">The first.</param>
         /// <returns></returns>
         public static bool TryFirst<T>(this IEnumerable<T> source, out T first)
-        {
+        {            
             first = source.FirstOrDefault();
-            return first != null;
+            
+            if (first == null)
+            {
+                return false;
+            }
+            else if (EqualityComparer<T>.Default.Equals(first, default(T)))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         /// <summary>
@@ -379,7 +392,19 @@ namespace System.Collections.Generic
         public static bool TryFirst<T>(this IEnumerable<T> source, Func<T, bool> predicate, out T first)
         {
             first = source.FirstOrDefault(predicate);
-            return first != null;
+            
+            if (first == null)
+            {
+                return false;
+            }
+            else if (EqualityComparer<T>.Default.Equals(first, default(T)))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         /// <summary>

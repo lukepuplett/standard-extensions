@@ -123,5 +123,24 @@ namespace StandardExtensions.UnitTests
             Assert.AreEqual(2, o[1].Item2);
             Assert.AreEqual(3, o[2].Item2);
         }
+
+        [TestMethod]
+        public void CollectionExtensions_TryFirst__when__empty_dictionary__then__returns_false()
+        {
+            var dic = new Dictionary<string, string>();
+
+            Assert.IsFalse(dic.TryFirst(out var f));
+        }
+        
+        [TestMethod]
+        public void CollectionExtensions_TryFirst__when__nonempty_dictionary__then__returns_true()
+        {
+            var dic = new Dictionary<string, string>()
+            {
+                ["a"] = "b"
+            };
+
+            Assert.IsTrue(dic.TryFirst(out var f));
+        }
     }
 }
