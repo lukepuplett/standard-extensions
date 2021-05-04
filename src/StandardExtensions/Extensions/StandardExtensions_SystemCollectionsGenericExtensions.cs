@@ -229,15 +229,20 @@ namespace System.Collections.Generic
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns>The items in random order.</returns>
-        public static IEnumerable<T> RandomOrder<T>(this IEnumerable<T> instance)
+        public static IEnumerable<T> RandomOrder<T>(this IEnumerable<T> instance, Random rng = null)
         {
             // http://en.algoritmy.net/article/43676/Fisher-Yates-shuffle
-            
+
+            if (rng == null)
+            {
+                rng = _rng;
+            }
+
             var array = instance.ToArray();
 
             for (int i = array.Length; i > 1; i--)
             {
-                int j = _rng.Next(i);
+                int j = rng.Next(i);
 
                 T tmp = array[j];
                 array[j] = array[i - 1];
@@ -245,6 +250,15 @@ namespace System.Collections.Generic
             }
 
             return array;
+        }
+
+        /// <summary>
+        /// Randomizes the order of the string using the Fidher-Yates shuffle.
+        /// </summary>
+        /// <returns>The randomized string.</returns>
+        public static string RandomOrder(this string str, Random rng = null)
+        {
+            return new string(str.RandomOrder<char>(rng).ToArray());
         }
 
         /// <summary>
@@ -364,9 +378,9 @@ namespace System.Collections.Generic
         /// <param name="first">The first.</param>
         /// <returns></returns>
         public static bool TryFirst<T>(this IEnumerable<T> source, out T first)
-        {            
+        {
             first = source.FirstOrDefault();
-            
+
             if (first == null)
             {
                 return false;
@@ -392,7 +406,7 @@ namespace System.Collections.Generic
         public static bool TryFirst<T>(this IEnumerable<T> source, Func<T, bool> predicate, out T first)
         {
             first = source.FirstOrDefault(predicate);
-            
+
             if (first == null)
             {
                 return false;

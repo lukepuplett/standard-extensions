@@ -9,6 +9,30 @@ namespace StandardExtensions.UnitTests
     public class CollectionExtensionsTests
     {
         [TestMethod]
+        public void SystemCollectionExtensions__RandomOrder__when__alphabet__then__returns_different()
+        {
+            var alpha = "abcdefghijklmnopqrstuvwxyz";
+
+            var actual = alpha.RandomOrder();
+
+            Assert.AreNotEqual(alpha, actual);
+        }
+
+        [TestMethod]
+        public void SystemCollectionExtensions__RandomOrder__when__alphabet_with_supplied_rng__then__returns_different()
+        {
+            var alpha = "abcdefghijklmnopqrstuvwxyz";
+
+            var actual = alpha.RandomOrder(new Random(123));
+
+            Assert.AreNotEqual(alpha, actual);
+
+            var actual2 = alpha.RandomOrder(new Random(123));
+
+            Assert.AreEqual(actual, actual2);
+        }
+
+        [TestMethod]
         public void SystemCollectionsExtensions__Evens__when__empty__then__returns_no_names()
         {
             List<string> names = new List<string>()
@@ -131,7 +155,7 @@ namespace StandardExtensions.UnitTests
 
             Assert.IsFalse(dic.TryFirst(out var f));
         }
-        
+
         [TestMethod]
         public void CollectionExtensions_TryFirst__when__nonempty_dictionary__then__returns_true()
         {
