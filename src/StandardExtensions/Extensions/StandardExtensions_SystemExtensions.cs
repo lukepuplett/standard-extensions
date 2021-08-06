@@ -16,6 +16,30 @@ namespace System
         #region Object
 
         /// <summary>
+        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// </summary>
+        /// <param name="o">The o.</param>
+        /// <param name="nullAsEmpty">if set to <c>true</c> [null as empty].</param>
+        /// <returns>
+        /// A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2201:DoNotRaiseReservedExceptionTypes")]
+        public static string ToString(this object o, bool nullAsEmpty)
+        {
+            if (o != null)
+            {
+                return o.ToString();
+            }
+            else
+            {
+                if (nullAsEmpty)
+                    return String.Empty;
+
+                throw new NullReferenceException("ToString called on a null instance.");
+            }
+        }
+
+        /// <summary>
         /// Returns a <see cref="System.String" /> that represents this instance.
         /// </summary>
         /// <param name="nullValue">The value to return if the string is null.</param>
@@ -29,6 +53,23 @@ namespace System
                 return nullValue;
 
             return s.ToString();
+        }
+
+        #endregion
+
+        #region Boolean
+
+        /// <summary>
+        /// Returns one of two different strings depending on the value.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> as specified.
+        /// </returns>
+        /// <param name="trueString">The string to return if the value is true.</param>
+        /// <param name="falseString">The string to return if the value is false.</param>
+        public static string ToString(this bool value, string trueString, string falseString)
+        {
+            return value ? trueString : falseString;
         }
 
         #endregion
@@ -586,8 +627,8 @@ namespace System
 
 
         /// <summary>
-        /// Turns a string that looks like   this into a String That Looks Like This.
-        /// </summary>       
+        /// Turns a string That loOks like THIS into a String That Looks Like This.
+        /// </summary>
         /// <remarks>
         /// Also normalizes the spacing to single spaces.
         /// </remarks> 
@@ -813,34 +854,6 @@ namespace System
             else
             {
                 return $"\'{s}\'";
-            }
-        }
-
-        #endregion
-
-        #region Object
-
-        /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// <param name="o">The o.</param>
-        /// <param name="nullAsEmpty">if set to <c>true</c> [null as empty].</param>
-        /// <returns>
-        /// A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2201:DoNotRaiseReservedExceptionTypes")]
-        public static string ToString(this object o, bool nullAsEmpty)
-        {
-            if (o != null)
-            {
-                return o.ToString();
-            }
-            else
-            {
-                if (nullAsEmpty)
-                    return String.Empty;
-
-                throw new NullReferenceException("ToString called on a null instance.");
             }
         }
 

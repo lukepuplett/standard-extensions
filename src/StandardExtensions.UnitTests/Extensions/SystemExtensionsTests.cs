@@ -8,6 +8,18 @@ namespace StandardExtensions.UnitTests
     public class SystemExtensionsTests
     {
         [TestMethod]
+        public void Bool_ToString__when__true__then__prints_yeah()
+        {
+            Assert.AreEqual("yeah", true.ToString("yeah", "nah"));
+        }
+
+        [TestMethod]
+        public void Bool_ToString__when__true__then__prints_nah()
+        {
+            Assert.AreEqual("nah", false.ToString("yeah", "nah"));
+        }
+
+        [TestMethod]
         public void RoundBack__when__Thu11May_with_grain_7__then__returns_x()
         {
             var dto = new DateTimeOffset(2017, 5, 11, 13, 0, 0, TimeSpan.FromHours(0));
