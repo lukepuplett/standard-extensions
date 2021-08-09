@@ -173,6 +173,21 @@ namespace System
         }
 
         /// <summary>
+        /// Returns true if the DateTimeOffset instance represents a moment in the past. This is not a simple negation of IsInTheFuture.
+        /// </summary>
+        /// <param name="treatMinMaxAsFalse">When true, returns false for minimum and maximum values.</param>
+        /// <returns>True if the DateTimeOffset instance is less than now using UTC.</returns>
+        public static bool IsInThePast(this DateTimeOffset instance, bool treatMinMaxAsFalse = false)
+        {
+            if (treatMinMaxAsFalse && instance.IsMinMax())
+            {
+                return false;
+            }
+
+            return DateTimeOffset.UtcNow.CompareTo(instance.ToUniversalTime()) > 0;
+        }
+
+        /// <summary>
         /// Returns true if the value is MinValue or MaxValue.
         /// </summary>        
         public static bool IsMinMax(this DateTimeOffset instance)
@@ -413,6 +428,21 @@ namespace System
             }
 
             return DateTime.UtcNow.CompareTo(instance.ToUniversalTime()) < 0;
+        }
+
+        /// <summary>
+        /// Returns true if the DateTimeOffset instance represents a moment in the past. This is not a simple negation of IsInTheFuture.
+        /// </summary>
+        /// <param name="treatMinMaxAsFalse">When true, returns false for minimum and maximum values.</param>
+        /// <returns>True if the DateTimeOffset instance is less than now using UTC.</returns>
+        public static bool IsInThePast(this DateTime instance, bool treatMinMaxAsFalse = false)
+        {
+            if (treatMinMaxAsFalse && instance.IsMinMax())
+            {
+                return false;
+            }
+
+            return DateTime.UtcNow.CompareTo(instance.ToUniversalTime()) > 0;
         }
 
         /// <summary>

@@ -50,6 +50,24 @@ namespace StandardExtensions.UnitTests
         }
 
         [TestMethod]
+        public void DateTimeOffset_IsInThePast__when__tomorrow__then__returns_false()
+        {
+            Assert.IsFalse(DateTime.Now.AddDays(1).IsInThePast());
+        }
+
+        [TestMethod]
+        public void DateTimeOffset_IsInThePast__when__yesterday__then__returns_true()
+        {
+            Assert.IsTrue(DateTime.Now.AddDays(-1).IsInThePast());
+        }
+
+        [TestMethod]
+        public void DateTimeOffset_IsInThePast__when__min__then__returns_false()
+        {
+            Assert.IsFalse(DateTime.MinValue.IsInThePast(true));
+        }
+
+        [TestMethod]
         public void DateTimeOffset_RoundBack__when__Thu11May_with_grain_7__then__returns_x()
         {
             var dto = new DateTimeOffset(2017, 5, 11, 13, 0, 0, TimeSpan.FromHours(0));
