@@ -20,7 +20,37 @@ namespace StandardExtensions.UnitTests
         }
 
         [TestMethod]
-        public void RoundBack__when__Thu11May_with_grain_7__then__returns_x()
+        public void DateTimeOffset_IsMinMax__when__min__then__returns_true()
+        {
+            Assert.IsTrue(DateTime.MinValue.IsMinMax());
+        }
+
+        [TestMethod]
+        public void DateTimeOffset_IsMinMax__when__max__then__returns_true()
+        {
+            Assert.IsTrue(DateTime.MaxValue.IsMinMax());
+        }
+
+        [TestMethod]
+        public void DateTimeOffset_IsMinMax__when__now__then__returns_false()
+        {
+            Assert.IsFalse(DateTime.Now.IsMinMax());
+        }
+
+        [TestMethod]
+        public void DateTimeOffset_IsInTheFuture__when__tomorrow__then__returns_true()
+        {
+            Assert.IsTrue(DateTime.Now.AddDays(1).IsInTheFuture());
+        }
+
+        [TestMethod]
+        public void DateTimeOffset_IsInTheFuture__when__max__then__returns_false()
+        {
+            Assert.IsFalse(DateTime.MaxValue.IsInTheFuture(true));
+        }
+
+        [TestMethod]
+        public void DateTimeOffset_RoundBack__when__Thu11May_with_grain_7__then__returns_x()
         {
             var dto = new DateTimeOffset(2017, 5, 11, 13, 0, 0, TimeSpan.FromHours(0));
 
@@ -34,7 +64,7 @@ namespace StandardExtensions.UnitTests
         }
 
         [TestMethod]
-        public void RoundForward__when__1003am_with_grain_5__then__returns_1005am()
+        public void DateTimeOffset_RoundForward__when__1003am_with_grain_5__then__returns_1005am()
         {
             var raggedTime = DateTimeOffset.Parse("10:03");
 
@@ -45,7 +75,7 @@ namespace StandardExtensions.UnitTests
         }
 
         [TestMethod]
-        public void RoundForward__when__1003am_1004am_1008am_with_grain_15__then__all_end_up_1015am()
+        public void DateTimeOffset_RoundForward__when__1003am_1004am_1008am_with_grain_15__then__all_end_up_1015am()
         {
             List<DateTimeOffset> raggedTimes = new List<DateTimeOffset>();
 
@@ -63,7 +93,7 @@ namespace StandardExtensions.UnitTests
         }
 
         [TestMethod]
-        public void RoundForward__when__Thur24thMarch_with_grain_1_week__then__returns_Mon28thMarch()
+        public void DateTimeOffset_RoundForward__when__Thur24thMarch_with_grain_1_week__then__returns_Mon28thMarch()
         {
             // Should round to the start of the next week.
 

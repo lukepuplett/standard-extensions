@@ -160,10 +160,24 @@ namespace System
         /// <summary>
         /// Returns true if the DateTimeOffset instance represents a moment in the future.
         /// </summary>
+        /// <param name="treatMinMaxAsFalse">When true, returns false for minimum and maximum values.</param>
         /// <returns>True if the DateTimeOffset instance is greater than now using UTC.</returns>
-        public static bool IsInTheFuture(this DateTimeOffset instance)
+        public static bool IsInTheFuture(this DateTimeOffset instance, bool treatMinMaxAsFalse = false)
         {
+            if (treatMinMaxAsFalse && instance.IsMinMax())
+            {
+                return false;
+            }
+
             return DateTimeOffset.UtcNow.CompareTo(instance.ToUniversalTime()) < 0;
+        }
+
+        /// <summary>
+        /// Returns true if the value is MinValue or MaxValue.
+        /// </summary>        
+        public static bool IsMinMax(this DateTimeOffset instance)
+        {
+            return instance == DateTimeOffset.MinValue || instance == DateTimeOffset.MaxValue;
         }
 
         /// <summary>
@@ -389,10 +403,24 @@ namespace System
         /// <summary>
         /// Returns true if the DateTime instance represents a moment in the future.
         /// </summary>
+        /// <param name="treatMinMaxAsFalse">When true, returns false for minimum and maximum values.</param>
         /// <returns>True if the DateTime instance is greater than now using UTC.</returns>
-        public static bool IsInTheFuture(this DateTime instance)
+        public static bool IsInTheFuture(this DateTime instance, bool treatMinMaxAsFalse = false)
         {
+            if (treatMinMaxAsFalse && instance.IsMinMax())
+            {
+                return false;
+            }
+
             return DateTime.UtcNow.CompareTo(instance.ToUniversalTime()) < 0;
+        }
+
+        /// <summary>
+        /// Returns true if the value is MinValue or MaxValue.
+        /// </summary>        
+        public static bool IsMinMax(this DateTime instance)
+        {
+            return instance == DateTime.MinValue || instance == DateTime.MaxValue;
         }
 
         /// <summary>
