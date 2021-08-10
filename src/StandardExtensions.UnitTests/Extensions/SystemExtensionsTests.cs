@@ -7,6 +7,8 @@ namespace StandardExtensions.UnitTests
     [TestClass]
     public class SystemExtensionsTests
     {
+        // Boolean
+
         [TestMethod]
         public void Bool_ToString__when__true__then__prints_yeah()
         {
@@ -18,6 +20,8 @@ namespace StandardExtensions.UnitTests
         {
             Assert.AreEqual("nah", false.ToString("yeah", "nah"));
         }
+
+        // DateTimeOffset
 
         [TestMethod]
         public void DateTimeOffset_IsMinMax__when__min__then__returns_true()
@@ -175,6 +179,8 @@ namespace StandardExtensions.UnitTests
             Assert.AreEqual(jan1str2018, actual);
         }
 
+        // TimeSpan
+
         [TestMethod]
         public void TimeSpan_ToCaption__outputs_hours_and_minutes()
         {
@@ -227,6 +233,8 @@ namespace StandardExtensions.UnitTests
 
             Assert.AreEqual("3ms", caption);
         }
+
+        // String
 
         [TestMethod]
         public void String_RightAfter__when__parsnip_delimited_by_s__then__returns_nip()
@@ -301,31 +309,54 @@ namespace StandardExtensions.UnitTests
         }
 
         [TestMethod]
-        public void String_SurroundWith_when__single_quote_char__then__works()
+        public void String_SurroundWith__when__single_quote_char__then__works()
         {
             Assert.AreEqual("'Sun'", "Sun".SurroundWith("'"[0]));
         }
 
         [TestMethod]
-        public void String_SurroundWith_when__double_quote_char__then__works()
+        public void String_SurroundWith__when__double_quote_char__then__works()
         {
             string actual = "Sun".SurroundWith(true);
             Assert.AreEqual("\"Sun\"", actual);
         }
 
         [TestMethod]
-        public void String_ToTitleCase_when__all_lower__then__All_Lower()
+        public void String_ToTitleCase__when__all_lower__then__All_Lower()
         {
             string actual = "i love lambrusco bianco".ToTitleCase();
             Assert.AreEqual("I Love Lambrusco Bianco", actual);
         }
 
         [TestMethod]
-        public void String_ToTitleCase_when__ALL_UPPER__then__All_Upper()
+        public void String_ToTitleCase__when__ALL_UPPER__then__All_Upper()
         {
             string actual = "I LOVE LAMBRUSCO BIANCO".ToTitleCase();
             Assert.AreEqual("I Love Lambrusco Bianco", actual);
         }
+
+        [TestMethod]
+        public void String_ToInitialCap__when__all_upper__then__All_upper()
+        {
+            string actual = "ALL UPPER".ToInitialCap(); // false
+            Assert.AreEqual("ALL UPPER", actual);
+        }
+
+        [TestMethod]
+        public void String_ToInitialCap__when__ALL_UPPER__then__ALL_UPPER()
+        {
+            string actual = "ALL UPPER".ToInitialCap(true);
+            Assert.AreEqual("ALL UPPER", actual);
+        }
+
+        [TestMethod]
+        public void String_ToInitialCap__when__aLL_uPPER__then__ALL_UPPER()
+        {
+            string actual = "aLL uPPER".ToInitialCap(true);
+            Assert.AreEqual("ALL UPPER", actual);
+        }
+
+        // Guid
 
         [TestMethod]
         public void Guid_IfEmpty__when__Guid_is_empty__then__returns_new_guid()
@@ -346,6 +377,8 @@ namespace StandardExtensions.UnitTests
 
             Assert.AreEqual(expected, actual);
         }
+
+        // Exception
 
         [TestMethod]
         public void Exception_IsSafeToHandle__when__ApplicationException__then__catches_it()

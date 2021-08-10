@@ -699,16 +699,23 @@ namespace System
         /// <summary>
         /// Capitalizes just the first letter of the string and leaves the others as is.
         /// </summary>        
-        /// <returns>Returns 'a string that goes LIKE this' as 'A string that goes LIKE this'.</returns>
-        public static string ToInitialCap(this string instance)
+        /// <returns>Returns 'cow goes MOO' as 'Cow goes MOO'.</returns>
+        public static string ToInitialCap(this string instance, bool touchEachWord = false)
         {
             if (String.IsNullOrEmpty(instance))
                 return instance;
 
-            var tail = instance.Substring(1, instance.Length - 1);
-            var initial = instance.Substring(0, 1).ToUpper();
+            if (!touchEachWord)
+            {
+                var tail = instance.Substring(1, instance.Length - 1);
+                var initial = instance.Substring(0, 1).ToUpper();
 
-            return string.Concat(initial, tail);
+                return string.Concat(initial, tail);
+            }
+            else
+            {
+                return string.Join(" ", instance.SplitWords().Select(w => w.ToInitialCap()));
+            }
         }
 
         /// <summary>
