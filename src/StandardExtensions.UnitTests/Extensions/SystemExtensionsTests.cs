@@ -237,6 +237,30 @@ namespace StandardExtensions.UnitTests
         // String
 
         [TestMethod]
+        public void String_Left__when__parsnip_and_1__then__p()
+        {
+            Assert.AreEqual("p", "parsnip".Left(1));
+        }
+
+        [TestMethod]
+        public void String_Left__when__parsnip_and_100__then__parsnip()
+        {
+            Assert.AreEqual("parsnip", "parsnip".Left(100));
+        }
+
+        [TestMethod]
+        public void String_Left__when__parsnip_and_minus_1__then__parsni()
+        {
+            Assert.AreEqual("parsni", "parsnip".Left(-1));
+        }
+
+        [TestMethod]
+        public void String_Left__when__parsnip_and_minus_100__then__parsnip()
+        {
+            Assert.AreEqual("parsnip", "parsnip".Left(-100));
+        }
+
+        [TestMethod]
         public void String_RightAfter__when__parsnip_delimited_by_s__then__returns_nip()
         {
             Assert.AreEqual("nip", "parsnip".RightAfter("s"));

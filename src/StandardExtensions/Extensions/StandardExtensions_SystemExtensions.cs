@@ -741,7 +741,13 @@ namespace System
             if (length == 0)
                 return String.Empty;
 
-            return instance.Substring(0, Math.Min(instance.Length, length));
+            if (length > 0)
+                return instance.Substring(0, Math.Min(instance.Length, length));
+
+            if (length < 0 - instance.Length)
+                return instance;
+
+            return instance.Substring(0, instance.Length + length);
         }
 
         /// <summary>

@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Evoq.Extensions</id>
-    <version>1.7.0</version>
+    <version>1.7.1</version>
     
     <title>Evoq Extensions</title>
     <summary>Contains useful extension methods for BCL types and generic collections.</summary>
@@ -15,7 +15,7 @@
     <licenseUrl>https://github.com/lukepuplett/standard-extensions/blob/master/LICENSE</licenseUrl>    
         
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <releaseNotes>New string.ToInitialCap(touchEachWord) optional parameter.</releaseNotes>
+    <releaseNotes>Left can now take a negative length to read until that many characters from the end.</releaseNotes>
     <copyright>Copyright © Evoq Limited 2020</copyright>
     <tags>extension methods, helpers</tags>
     
