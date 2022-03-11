@@ -42,6 +42,35 @@ namespace StandardExtensions.UnitTests
         }
 
         [TestMethod]
+        public void DateTimeOffset_IsMinMax__when__UTC_min__then__returns_true()
+        {
+            var utcMin = DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc);
+
+            Assert.IsTrue(utcMin.IsMinMax());
+        }
+
+        [TestMethod]
+        public void DateTimeOffset_IsMinMax__when__UTC_max__then__returns_true()
+        {
+            var utcMax = DateTime.SpecifyKind(DateTime.MaxValue, DateTimeKind.Utc);
+
+            Assert.IsTrue(utcMax.IsMinMax());
+        }
+
+        [TestMethod]
+        public void DateTimeOffset_IsMinMax__when__UTC_now__then__returns_false()
+        {
+            Assert.IsFalse(DateTime.UtcNow.IsMinMax());
+        }
+
+        [TestMethod]
+        public void DateTimeOffset_IsMinMax__when__min_to_UTC__then__returns_false() // This is an note-worthy test .
+        {
+            Assert.IsFalse(DateTime.MinValue.ToUniversalTime().IsMinMax());
+        }
+
+
+        [TestMethod]
         public void DateTimeOffset_IsInTheFuture__when__tomorrow__then__returns_true()
         {
             Assert.IsTrue(DateTime.Now.AddDays(1).IsInTheFuture());
@@ -52,6 +81,7 @@ namespace StandardExtensions.UnitTests
         {
             Assert.IsFalse(DateTime.MaxValue.IsInTheFuture(true));
         }
+
 
         [TestMethod]
         public void DateTimeOffset_IsInThePast__when__tomorrow__then__returns_false()
@@ -71,6 +101,7 @@ namespace StandardExtensions.UnitTests
             Assert.IsFalse(DateTime.MinValue.IsInThePast(true));
         }
 
+
         [TestMethod]
         public void DateTimeOffset_RoundBack__when__Thu11May_with_grain_7__then__returns_x()
         {
@@ -84,6 +115,7 @@ namespace StandardExtensions.UnitTests
             Assert.AreEqual(r.Year, 2017);
             Assert.AreEqual(r.TimeOfDay.TotalHours, 0);
         }
+
 
         [TestMethod]
         public void DateTimeOffset_RoundForward__when__1003am_with_grain_5__then__returns_1005am()
@@ -131,6 +163,7 @@ namespace StandardExtensions.UnitTests
             Assert.AreEqual(0, cleanTime.Minute);
         }
 
+
         [TestMethod]
         public void DateTimeOffset_To8601String__when__offset_value_supplied__then__roundtrips_perfectly()
         {
@@ -154,6 +187,7 @@ namespace StandardExtensions.UnitTests
 
             Assert.AreEqual(uni, tripped);
         }
+
 
         [TestMethod]
         public void DateTimeOffset_ToStartOfNextMonth__when__15_Oct_2017__then__returns_1st_Nov_midnight()
@@ -260,6 +294,7 @@ namespace StandardExtensions.UnitTests
             Assert.AreEqual("parsnip", "parsnip".Left(-100));
         }
 
+
         [TestMethod]
         public void String_RightAfter__when__parsnip_delimited_by_s__then__returns_nip()
         {
@@ -320,11 +355,13 @@ namespace StandardExtensions.UnitTests
             Assert.AreEqual("", "".RightAfter(""));
         }
 
+
         [TestMethod]
         public void String_Mid__when__0123456_start_4_end_6__then__returns_45()
         {
             Assert.AreEqual("45", "0123456".Mid(4, 6));
         }
+
 
         [TestMethod]
         public void String_SurroundWith__when__Sun_surrounded_with_moon__then__moonSunmoon()
@@ -345,6 +382,7 @@ namespace StandardExtensions.UnitTests
             Assert.AreEqual("\"Sun\"", actual);
         }
 
+
         [TestMethod]
         public void String_ToTitleCase__when__all_lower__then__All_Lower()
         {
@@ -358,6 +396,7 @@ namespace StandardExtensions.UnitTests
             string actual = "I LOVE LAMBRUSCO BIANCO".ToTitleCase();
             Assert.AreEqual("I Love Lambrusco Bianco", actual);
         }
+
 
         [TestMethod]
         public void String_ToInitialCap__when__all_upper__then__All_upper()
