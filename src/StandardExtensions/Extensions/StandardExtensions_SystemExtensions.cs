@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Reflection.Emit;
 using System.Text;
+using System.Xml;
 
 namespace System
 {
@@ -446,11 +449,27 @@ namespace System
         }
 
         /// <summary>
-        /// Returns true if the value is MinValue or MaxValue.
-        /// </summary>        
-        public static bool IsMinMax(this DateTime instance)
+        /// Returns true if the value is almost MinValue or MaxValue.
+        /// </summary>
+        public static bool IsMinMax(this DateTime instance, bool strictComparison = false)
         {
-            return instance == DateTime.MinValue || instance == DateTime.MaxValue;
+            if (instance == DateTime.MinValue || instance == DateTime.MaxValue)
+            {
+                return true;
+            }
+            else if (instance.Kind == DateTimeKind.Utc && !strictComparison)
+            {
+                // Handle situation where a developer has converted a min or max to UTC which
+                // we assume to be equivalent to min or max even if strictly it is not.
+
+                var utc = instance.ToUniversalTime();
+
+                return utc == DateTime.MinValue.ToUniversalTime() || utc == DateTime.MaxValue.ToUniversalTime();
+            }
+            else
+            {
+                return false;
+            }
         }
 
         /// <summary>

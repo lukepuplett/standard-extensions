@@ -64,9 +64,23 @@ namespace StandardExtensions.UnitTests
         }
 
         [TestMethod]
-        public void DateTimeOffset_IsMinMax__when__min_to_UTC__then__returns_false() // This is an note-worthy test .
+        public void DateTimeOffset_IsMinMax__when__UTC_now_strict__then__returns_false()
         {
-            Assert.IsFalse(DateTime.MinValue.ToUniversalTime().IsMinMax());
+            Assert.IsFalse(DateTime.UtcNow.IsMinMax(true));
+        }
+
+        [TestMethod]
+        [Ignore] // Does not work on build server in different timezone.
+        public void DateTimeOffset_IsMinMax__when__min_to_UTC__then__returns_true()
+        {
+            Assert.IsTrue(DateTime.MinValue.ToUniversalTime().IsMinMax());
+        }
+
+        [TestMethod]
+        [Ignore] // Does not work on build server in different timezone.
+        public void DateTimeOffset_IsMinMax__when__min_to_UTC_strict__then__returns_false()
+        {
+            Assert.IsFalse(DateTime.MinValue.ToUniversalTime().IsMinMax(true));
         }
 
 
