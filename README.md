@@ -1,3 +1,5 @@
+[![Build status](https://evoq.visualstudio.com/Libraries/_apis/build/status/github-standard-extensions)](https://evoq.visualstudio.com/Libraries/_build/latest?definitionId=2)
+
 # Introduction 
 This is a repository for a NuGet package. A library of general extension methods for many common uses across any .NET project.
 
