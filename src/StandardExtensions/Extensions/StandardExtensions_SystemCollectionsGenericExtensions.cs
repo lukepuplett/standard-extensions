@@ -324,6 +324,39 @@ namespace System.Collections.Generic
         }
 
         /// <summary>
+        /// Just as for GroupBy except returns the groups as a Dictionary of Lists of elements.
+        /// </summary>
+        /// <typeparam name="TSource">The type of the elements of source.</typeparam>
+        /// <typeparam name="TKey">The type of the key returned by keySelector.</typeparam>
+        /// <param name="source">An System.Collections.Generic.IEnumerable`1 whose elements to group.</param>
+        /// <param name="keySelector">A function to extract the key for each element.</param>
+        /// <returns>A Dictionary<TKey, IEnumerable<TSource>></returns>
+        /// <exception cref="System.ArgumentNullException">source or keySelector is null.</exception>
+        public static Dictionary<TKey, IEnumerable<TSource>> GroupByToDictionary<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
+        {
+            var groups = source.GroupBy(keySelector);
+
+            return groups.ToDictionary(g => g.Key, g => g.ToEnumerable());
+        }
+
+        /// <summary>
+        /// Just as for GroupBy except returns the groups as a Dictionary of Lists of elements.
+        /// </summary>
+        /// <typeparam name="TSource">The type of the elements of source.</typeparam>
+        /// <typeparam name="TKey">The type of the key returned by keySelector.</typeparam>
+        /// <param name="source">An System.Collections.Generic.IEnumerable`1 whose elements to group.</param>
+        /// <param name="keySelector">A function to extract the key for each element.</param>
+        /// <param name="comparer">An System.Collections.Generic.IEqualityComparer`1 to compare keys.</param>
+        /// <returns>A Dictionary<TKey, IEnumerable<TSource>></returns>
+        /// <exception cref="System.ArgumentNullException">source or keySelector is null.</exception>
+        public static Dictionary<TKey, IEnumerable<TSource>> GroupByToDictionary<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IEqualityComparer<TKey>? comparer)
+        {
+            var groups = source.GroupBy(keySelector, comparer);
+
+            return groups.ToDictionary(g => g.Key, g => g.ToEnumerable());
+        }
+
+        /// <summary>
         /// Returns the set of items, made distinct by the selected value.
         /// </summary>
         /// <typeparam name="TSource">The type of the source.</typeparam>
