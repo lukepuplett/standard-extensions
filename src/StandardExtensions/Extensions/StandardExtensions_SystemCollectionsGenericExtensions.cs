@@ -349,7 +349,7 @@ namespace System.Collections.Generic
         /// <param name="comparer">An System.Collections.Generic.IEqualityComparer`1 to compare keys.</param>
         /// <returns>A Dictionary<TKey, IEnumerable<TSource>></returns>
         /// <exception cref="System.ArgumentNullException">source or keySelector is null.</exception>
-        public static Dictionary<TKey, IEnumerable<TSource>> GroupByToDictionary<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IEqualityComparer<TKey>? comparer)
+        public static Dictionary<TKey, IEnumerable<TSource>> GroupByToDictionary<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IEqualityComparer<TKey> comparer)
         {
             var groups = source.GroupBy(keySelector, comparer);
 
