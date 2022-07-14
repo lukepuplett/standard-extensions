@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Evoq.Extensions</id>
-    <version>1.7.3</version>
+    <version>1.7.4</version>
     
     <title>Evoq Extensions</title>
     <summary>Contains useful extension methods for BCL types and generic collections.</summary>
@@ -15,7 +15,7 @@
     <licenseUrl>https://github.com/lukepuplett/standard-extensions/blob/master/LICENSE</licenseUrl>    
         
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <releaseNotes>Added GroupByToDictionary.</releaseNotes>
+    <releaseNotes>Added IsWithinTheLast and IsWithinTheNext.</releaseNotes>
     <copyright>Copyright © Evoq Limited 2022</copyright>
     <tags>extension methods, helpers</tags>
     

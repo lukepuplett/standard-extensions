@@ -21,28 +21,28 @@ namespace StandardExtensions.UnitTests
             Assert.AreEqual("nah", false.ToString("yeah", "nah"));
         }
 
-        // DateTimeOffset
+        // DateTime
 
         [TestMethod]
-        public void DateTimeOffset_IsMinMax__when__min__then__returns_true()
+        public void DateTime_IsMinMax__when__min__then__returns_true()
         {
             Assert.IsTrue(DateTime.MinValue.IsMinMax());
         }
 
         [TestMethod]
-        public void DateTimeOffset_IsMinMax__when__max__then__returns_true()
+        public void DateTime_IsMinMax__when__max__then__returns_true()
         {
             Assert.IsTrue(DateTime.MaxValue.IsMinMax());
         }
 
         [TestMethod]
-        public void DateTimeOffset_IsMinMax__when__now__then__returns_false()
+        public void DateTime_IsMinMax__when__now__then__returns_false()
         {
             Assert.IsFalse(DateTime.Now.IsMinMax());
         }
 
         [TestMethod]
-        public void DateTimeOffset_IsMinMax__when__UTC_min__then__returns_true()
+        public void DateTime_IsMinMax__when__UTC_min__then__returns_true()
         {
             var utcMin = DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc);
 
@@ -50,7 +50,7 @@ namespace StandardExtensions.UnitTests
         }
 
         [TestMethod]
-        public void DateTimeOffset_IsMinMax__when__UTC_max__then__returns_true()
+        public void DateTime_IsMinMax__when__UTC_max__then__returns_true()
         {
             var utcMax = DateTime.SpecifyKind(DateTime.MaxValue, DateTimeKind.Utc);
 
@@ -58,63 +58,113 @@ namespace StandardExtensions.UnitTests
         }
 
         [TestMethod]
-        public void DateTimeOffset_IsMinMax__when__UTC_now__then__returns_false()
+        public void DateTime_IsMinMax__when__UTC_now__then__returns_false()
         {
             Assert.IsFalse(DateTime.UtcNow.IsMinMax());
         }
 
         [TestMethod]
-        public void DateTimeOffset_IsMinMax__when__UTC_now_strict__then__returns_false()
+        public void DateTime_IsMinMax__when__UTC_now_strict__then__returns_false()
         {
             Assert.IsFalse(DateTime.UtcNow.IsMinMax(true));
         }
 
         [TestMethod]
         [Ignore] // Does not work on build server in different timezone.
-        public void DateTimeOffset_IsMinMax__when__min_to_UTC__then__returns_true()
+        public void DateTime_IsMinMax__when__min_to_UTC__then__returns_true()
         {
             Assert.IsTrue(DateTime.MinValue.ToUniversalTime().IsMinMax());
         }
 
         [TestMethod]
         [Ignore] // Does not work on build server in different timezone.
-        public void DateTimeOffset_IsMinMax__when__min_to_UTC_strict__then__returns_false()
+        public void DateTime_IsMinMax__when__min_to_UTC_strict__then__returns_false()
         {
             Assert.IsFalse(DateTime.MinValue.ToUniversalTime().IsMinMax(true));
         }
 
 
         [TestMethod]
-        public void DateTimeOffset_IsInTheFuture__when__tomorrow__then__returns_true()
+        public void DateTime_IsInTheFuture__when__tomorrow__then__returns_true()
         {
             Assert.IsTrue(DateTime.Now.AddDays(1).IsInTheFuture());
         }
 
         [TestMethod]
-        public void DateTimeOffset_IsInTheFuture__when__max__then__returns_false()
+        public void DateTime_IsInTheFuture__when__max__then__returns_false()
         {
             Assert.IsFalse(DateTime.MaxValue.IsInTheFuture(true));
         }
 
 
         [TestMethod]
-        public void DateTimeOffset_IsInThePast__when__tomorrow__then__returns_false()
+        public void DateTime_IsInThePast__when__tomorrow__then__returns_false()
         {
             Assert.IsFalse(DateTime.Now.AddDays(1).IsInThePast());
         }
 
         [TestMethod]
-        public void DateTimeOffset_IsInThePast__when__yesterday__then__returns_true()
+        public void DateTime_IsInThePast__when__yesterday__then__returns_true()
         {
             Assert.IsTrue(DateTime.Now.AddDays(-1).IsInThePast());
         }
 
         [TestMethod]
-        public void DateTimeOffset_IsInThePast__when__min__then__returns_false()
+        public void DateTime_IsInThePast__when__min__then__returns_false()
         {
             Assert.IsFalse(DateTime.MinValue.IsInThePast(true));
         }
 
+        // DateTimeOffset
+
+        [TestMethod]
+        public void DateTimeOffset_IsWithinTheLast__when__max__then__returns_true()
+        {
+            Assert.IsTrue(DateTimeOffset.MinValue.IsWithinTheLast(TimeSpan.MaxValue));
+        }
+
+        [TestMethod]
+        public void DateTimeOffset_IsWithinTheLast__when__1hAgo_is_within_1d__then__returns_true()
+        {
+            var hourAgo = DateTimeOffset.Now.AddHours(-1);
+
+            Assert.IsTrue(hourAgo.IsWithinTheLast(TimeSpan.FromDays(1)));
+        }
+
+
+        [TestMethod]
+        public void DateTimeOffset_IsWithinTheLast__when__1wAgo_is_within_1d__then__returns_false()
+        {
+            var weekAgo = DateTimeOffset.Now.AddDays(-7);
+
+            Assert.IsFalse(weekAgo.IsWithinTheLast(TimeSpan.FromDays(1)));
+        }
+
+        [TestMethod]
+        public void DateTimeOffset_IsWithinTheNext__when__max__then__returns_true()
+        {
+            Assert.IsTrue(DateTimeOffset.MaxValue.IsWithinTheNext(TimeSpan.MaxValue));
+        }
+
+        [TestMethod]
+        public void DateTimeOffset_IsWithinTheNext__when__max_but_instance_historic__then__returns_false()
+        {
+            Assert.IsFalse(DateTimeOffset.MinValue.IsWithinTheNext(TimeSpan.MaxValue));
+        }
+
+        [TestMethod]
+        public void DateTimeOffset_IsWithinTheNext__when__1h_is_within_next_day__then__returns_true()
+        {
+            var hourFromNow = DateTimeOffset.Now.AddHours(1);
+            Assert.IsTrue(hourFromNow.IsWithinTheNext(TimeSpan.FromDays(1)));
+        }
+
+        [TestMethod]
+        public void DateTimeOffset_IsWithinTheNext__when__1w_is_within_next_day__then__returns_false()
+        {
+            var weekFromNow = DateTimeOffset.Now.AddDays(7);
+            Assert.IsFalse(weekFromNow.IsWithinTheNext(TimeSpan.FromDays(1)));
+        }
 
         [TestMethod]
         public void DateTimeOffset_RoundBack__when__Thu11May_with_grain_7__then__returns_x()
@@ -228,6 +278,31 @@ namespace StandardExtensions.UnitTests
         }
 
         // TimeSpan
+
+
+        [TestMethod]
+        public void TimeSpan_IsNegative__when__pos1__then__returns_false()
+        {
+            Assert.IsFalse(TimeSpan.FromMilliseconds(1).IsNegative());
+        }
+
+        [TestMethod]
+        public void TimeSpan_IsNegative__when__neg1__then__returns_true()
+        {
+            Assert.IsTrue(TimeSpan.FromMilliseconds(-1).IsNegative());
+        }
+
+        [TestMethod]
+        public void TimeSpan_IsNegative__when__min__then__returns_true()
+        {
+            Assert.IsTrue(TimeSpan.MinValue.IsNegative());
+        }
+
+        [TestMethod]
+        public void TimeSpan_IsNegative__when__max__then__returns_false()
+        {
+            Assert.IsFalse(TimeSpan.MaxValue.IsNegative());
+        }
 
         [TestMethod]
         public void TimeSpan_ToCaption__outputs_hours_and_minutes()

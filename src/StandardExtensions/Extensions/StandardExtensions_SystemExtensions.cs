@@ -1,9 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Reflection.Emit;
 using System.Text;
-using System.Xml;
 
 namespace System
 {
@@ -188,6 +185,60 @@ namespace System
             }
 
             return DateTimeOffset.UtcNow.CompareTo(instance.ToUniversalTime()) > 0;
+        }
+
+        /// <summary>
+        /// Returns true if the DateTimeOffset instance represents a moment that occurred within a period of time in the past.
+        /// </summary>
+        /// <remarks>
+        /// Negative and positive TimeSpan values are treated the same.
+        /// </remarks>
+        /// <param name="timeSpan">The duration extending into the past.</param>
+        /// <returns>True if the DateTimeOffset instance is within the historic time period.</returns>
+        public static bool IsWithinTheLast(this DateTimeOffset instance, TimeSpan timeSpan)
+        {
+            if (instance.IsInTheFuture())
+            {
+                return false;
+            }
+
+            var duration = timeSpan.Duration();
+
+            if (duration == TimeSpan.MaxValue)
+            {
+                return true;
+            }
+
+            var ago = DateTimeOffset.Now - instance;
+
+            return ago <= timeSpan;
+        }
+
+        /// <summary>
+        /// Returns true if the DateTimeOffset instance represents a moment that will occur within a period of time in the future.
+        /// </summary>
+        /// <remarks>
+        /// Negative and positive TimeSpan values are treated the same.
+        /// </remarks>
+        /// <param name="timeSpan">The duration extending into the future.</param>
+        /// <returns>True if the DateTimeOffset instance is within the coming time period.</returns>
+        public static bool IsWithinTheNext(this DateTimeOffset instance, TimeSpan timeSpan)
+        {
+            if (instance.IsInThePast())
+            {
+                return false;
+            }
+
+            var duration = timeSpan.Duration();
+
+            if (duration == TimeSpan.MaxValue)
+            {
+                return true;
+            }
+
+            var futureTime = DateTimeOffset.Now + timeSpan;
+
+            return instance <= futureTime;
         }
 
         /// <summary>
@@ -447,6 +498,10 @@ namespace System
 
             return DateTime.UtcNow.CompareTo(instance.ToUniversalTime()) > 0;
         }
+
+// MOVE THIS
+
+        public static bool IsNegative(this TimeSpan timeSpan) => timeSpan.Ticks < 0;
 
         /// <summary>
         /// Returns true if the value is almost MinValue or MaxValue.
