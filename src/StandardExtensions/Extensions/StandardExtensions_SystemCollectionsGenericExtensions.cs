@@ -404,6 +404,33 @@ namespace System.Collections.Generic
         }
 
         /// <summary>
+        /// Recursively traverses a nested collection structure and applies an action to each item.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the source collection.</typeparam>
+        /// <param name="source">The source collection.</param>
+        /// <param name="action">The action to run on each item.</param>
+        /// <param name="maxDepth">The maximum depth to traverse. Default is int.MaxValue.</param>
+        /// <returns>The original collection for chaining.</returns>
+        public static IEnumerable<T> DeepVisitEach<T>(this IEnumerable<T> source, Action<T> action, int maxDepth = int.MaxValue)
+        {
+            return DeepVisitEachInternal(source, action, 0, maxDepth);
+        }
+
+        /// <summary>
+        /// Recursively traverses a nested collection structure and applies an action to each item,
+        /// providing information about the current depth.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the source collection.</typeparam>
+        /// <param name="source">The source collection.</param>
+        /// <param name="action">The action to run on each item, with the current depth as a parameter.</param>
+        /// <param name="maxDepth">The maximum depth to traverse. Default is int.MaxValue.</param>
+        /// <returns>The original collection for chaining.</returns>
+        public static IEnumerable<T> DeepVisitEach<T>(this IEnumerable<T> source, Action<T, int> action, int maxDepth = int.MaxValue)
+        {
+            return DeepVisitEachInternal(source, action, 0, maxDepth);
+        }
+
+        /// <summary>
         /// Tries to get the first item.
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -543,6 +570,48 @@ namespace System.Collections.Generic
                 lastValue = selectedValue;
                 hasValue = true;
             }
+        }
+
+        //
+
+        // Internal implementation for DeepVisitEach with Action<T>
+        private static IEnumerable<T> DeepVisitEachInternal<T>(IEnumerable<T> source, Action<T> action, int currentDepth, int maxDepth)
+        {
+            if (source == null || currentDepth > maxDepth)
+                return source;
+
+            foreach (var item in source)
+            {
+                action(item);
+
+                // If the item is itself an enumerable (but not a string), recursively visit it
+                if (item is IEnumerable<T> nestedCollection && !(item is string))
+                {
+                    DeepVisitEachInternal(nestedCollection, action, currentDepth + 1, maxDepth);
+                }
+            }
+
+            return source;
+        }
+
+        // Internal implementation for DeepVisitEach with Action<T, int>
+        private static IEnumerable<T> DeepVisitEachInternal<T>(IEnumerable<T> source, Action<T, int> action, int currentDepth, int maxDepth)
+        {
+            if (source == null || currentDepth > maxDepth)
+                return source;
+
+            foreach (var item in source)
+            {
+                action(item, currentDepth);
+
+                // If the item is itself an enumerable (but not a string), recursively visit it
+                if (item is IEnumerable<T> nestedCollection && !(item is string))
+                {
+                    DeepVisitEachInternal(nestedCollection, action, currentDepth + 1, maxDepth);
+                }
+            }
+
+            return source;
         }
     }
 }

@@ -166,5 +166,119 @@ namespace StandardExtensions.UnitTests
 
             Assert.IsTrue(dic.TryFirst(out var f));
         }
+
+        [TestMethod]
+        public void SystemCollectionsExtensions__DeepVisitEach__when__nested_collections__then__visits_all_items()
+        {
+            // Arrange
+            var nestedList = new List<object>
+            {
+                "Level 1 - Item 1",
+                new List<object>
+                {
+                    "Level 2 - Item 1",
+                    "Level 2 - Item 2",
+                    new List<object>
+                    {
+                        "Level 3 - Item 1"
+                    }
+                },
+                "Level 1 - Item 2"
+            };
+
+            var visitedItems = new List<string>();
+
+            // Act
+            nestedList.DeepVisitEach(item =>
+            {
+                if (item is string str)
+                {
+                    visitedItems.Add(str);
+                }
+            });
+
+            // Assert
+            Assert.AreEqual(5, visitedItems.Count);
+            CollectionAssert.Contains(visitedItems, "Level 1 - Item 1");
+            CollectionAssert.Contains(visitedItems, "Level 1 - Item 2");
+            CollectionAssert.Contains(visitedItems, "Level 2 - Item 1");
+            CollectionAssert.Contains(visitedItems, "Level 2 - Item 2");
+            CollectionAssert.Contains(visitedItems, "Level 3 - Item 1");
+        }
+
+        [TestMethod]
+        public void SystemCollectionsExtensions__DeepVisitEach__when__max_depth_1__then__only_visits_top_level()
+        {
+            // Arrange
+            var nestedList = new List<object>
+            {
+                "Level 1 - Item 1",
+                new List<object>
+                {
+                    "Level 2 - Item 1",
+                    "Level 2 - Item 2",
+                    new List<object>
+                    {
+                        "Level 3 - Item 1"
+                    }
+                },
+                "Level 1 - Item 2"
+            };
+
+            var visitedItems = new List<string>();
+
+            // Act
+            nestedList.DeepVisitEach(item =>
+            {
+                if (item is string str)
+                {
+                    visitedItems.Add(str);
+                }
+            }, maxDepth: 0);
+
+            // Assert
+            Assert.AreEqual(2, visitedItems.Count);
+            CollectionAssert.Contains(visitedItems, "Level 1 - Item 1");
+            CollectionAssert.Contains(visitedItems, "Level 1 - Item 2");
+        }
+
+        [TestMethod]
+        public void SystemCollectionsExtensions__DeepVisitEach__when__with_depth_parameter__then__provides_correct_depth()
+        {
+            // Arrange
+            var nestedList = new List<object>
+            {
+                "Level 1 - Item 1",
+                new List<object>
+                {
+                    "Level 2 - Item 1",
+                    "Level 2 - Item 2",
+                    new List<object>
+                    {
+                        "Level 3 - Item 1"
+                    }
+                },
+                "Level 1 - Item 2"
+            };
+
+            var visitedItems = new Dictionary<string, int>();
+
+            // Act
+            nestedList.DeepVisitEach((item, depth) =>
+            {
+                if (item is string str)
+                {
+                    visitedItems[str] = depth;
+                }
+            });
+
+            // Assert
+            Assert.AreEqual(5, visitedItems.Count);
+            Assert.AreEqual(0, visitedItems["Level 1 - Item 1"]);
+            Assert.AreEqual(0, visitedItems["Level 1 - Item 2"]);
+            Assert.AreEqual(1, visitedItems["Level 2 - Item 1"]);
+            Assert.AreEqual(1, visitedItems["Level 2 - Item 2"]);
+            Assert.AreEqual(2, visitedItems["Level 3 - Item 1"]);
+        }
     }
 }
