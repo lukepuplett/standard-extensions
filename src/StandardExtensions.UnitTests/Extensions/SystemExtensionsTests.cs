@@ -131,13 +131,31 @@ namespace StandardExtensions.UnitTests
             Assert.IsTrue(hourAgo.IsWithinTheLast(TimeSpan.FromDays(1)));
         }
 
-
         [TestMethod]
         public void DateTimeOffset_IsWithinTheLast__when__1wAgo_is_within_1d__then__returns_false()
         {
             var weekAgo = DateTimeOffset.Now.AddDays(-7);
 
             Assert.IsFalse(weekAgo.IsWithinTheLast(TimeSpan.FromDays(1)));
+        }
+
+        [TestMethod]
+        public void DateTimeOffset_IsWithinTheLast__when__UTC__then__returns_true()
+        {
+            var utcNow = DateTime.UtcNow;
+
+            var iso = $"{utcNow.Year}-{utcNow.Month:D2}-{utcNow.Day:D2}T{utcNow.Hour:D2}:{utcNow.Minute:D2}:01.2340000+00:00";
+            // var iso = "2023-06-09T18:16:55.3870000+00:00";
+            var parsed = DateTimeOffset.Parse(iso);
+
+            Assert.AreEqual(utcNow.Year, parsed.Year);
+            Assert.AreEqual(utcNow.Month, parsed.Month);
+            Assert.AreEqual(utcNow.Day, parsed.Day);
+            Assert.AreEqual(utcNow.Hour, parsed.Hour);
+            Assert.AreEqual(utcNow.Minute, parsed.Minute);
+            Assert.AreEqual(TimeSpan.Zero, parsed.Offset);
+
+            Assert.IsTrue(parsed.IsWithinTheLast(TimeSpan.FromHours(1)));
         }
 
         [TestMethod]
