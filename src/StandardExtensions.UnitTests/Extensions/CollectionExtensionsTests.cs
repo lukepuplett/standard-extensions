@@ -280,5 +280,42 @@ namespace StandardExtensions.UnitTests
             Assert.AreEqual(1, visitedItems["Level 2 - Item 2"]);
             Assert.AreEqual(2, visitedItems["Level 3 - Item 1"]);
         }
+
+        [TestMethod]
+        public void SystemCollectionsExtensions__DeepVisitEach__when__with_dictionary__then__provides_correct_depth()
+        {
+            // Arrange
+            var nestedDictionary = new Dictionary<string, object>
+            {
+                ["Key1"] = "Value1",
+                ["Key2"] = new Dictionary<string, object>
+                {
+                    ["NestedKey1"] = "NestedValue1",
+                    ["NestedKey2"] = new Dictionary<string, object>
+                    {
+                        ["DeepKey"] = "DeepValue"
+                    }
+                },
+                ["Key3"] = "Value3"
+            };
+
+            var visitedItems = new Dictionary<string, int>();
+
+            // Act
+            nestedDictionary.DeepVisitEach((item, depth) =>
+            {
+                if (item.Value is string str)
+                {
+                    visitedItems[str] = depth;
+                }
+            });
+
+            // Assert
+            Assert.AreEqual(4, visitedItems.Count);
+            Assert.AreEqual(0, visitedItems["Value1"]);
+            Assert.AreEqual(0, visitedItems["Value3"]);
+            Assert.AreEqual(1, visitedItems["NestedValue1"]);
+            Assert.AreEqual(2, visitedItems["DeepValue"]);
+        }
     }
 }

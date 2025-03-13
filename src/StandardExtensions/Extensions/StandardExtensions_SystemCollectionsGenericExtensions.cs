@@ -330,7 +330,6 @@ namespace System.Collections.Generic
         /// <typeparam name="TKey">The type of the key returned by keySelector.</typeparam>
         /// <param name="source">An System.Collections.Generic.IEnumerable`1 whose elements to group.</param>
         /// <param name="keySelector">A function to extract the key for each element.</param>
-        /// <returns>A Dictionary<TKey, IEnumerable<TSource>></returns>
         /// <exception cref="System.ArgumentNullException">source or keySelector is null.</exception>
         public static Dictionary<TKey, IEnumerable<TSource>> GroupByToDictionary<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
         {
@@ -347,7 +346,6 @@ namespace System.Collections.Generic
         /// <param name="source">An System.Collections.Generic.IEnumerable`1 whose elements to group.</param>
         /// <param name="keySelector">A function to extract the key for each element.</param>
         /// <param name="comparer">An System.Collections.Generic.IEqualityComparer`1 to compare keys.</param>
-        /// <returns>A Dictionary<TKey, IEnumerable<TSource>></returns>
         /// <exception cref="System.ArgumentNullException">source or keySelector is null.</exception>
         public static Dictionary<TKey, IEnumerable<TSource>> GroupByToDictionary<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IEqualityComparer<TKey> comparer)
         {
@@ -578,7 +576,9 @@ namespace System.Collections.Generic
         private static IEnumerable<T> DeepVisitEachInternal<T>(IEnumerable<T> source, Action<T> action, int currentDepth, int maxDepth)
         {
             if (source == null || currentDepth > maxDepth)
+            {
                 return source;
+            }
 
             foreach (var item in source)
             {
@@ -589,6 +589,16 @@ namespace System.Collections.Generic
                 {
                     DeepVisitEachInternal(nestedCollection, action, currentDepth + 1, maxDepth);
                 }
+
+                if (IsKeyValuePair(item))
+                {
+                    var value = item.GetType().GetProperty("Value").GetValue(item);
+
+                    if (value is IEnumerable<T> enumerableValue)
+                    {
+                        DeepVisitEachInternal(enumerableValue, action, currentDepth + 1, maxDepth);
+                    }
+                }
             }
 
             return source;
@@ -598,7 +608,9 @@ namespace System.Collections.Generic
         private static IEnumerable<T> DeepVisitEachInternal<T>(IEnumerable<T> source, Action<T, int> action, int currentDepth, int maxDepth)
         {
             if (source == null || currentDepth > maxDepth)
+            {
                 return source;
+            }
 
             foreach (var item in source)
             {
@@ -609,9 +621,28 @@ namespace System.Collections.Generic
                 {
                     DeepVisitEachInternal(nestedCollection, action, currentDepth + 1, maxDepth);
                 }
+
+                if (IsKeyValuePair(item))
+                {
+                    var value = item.GetType().GetProperty("Value").GetValue(item);
+
+                    if (value is IEnumerable<T> enumerableValue)
+                    {
+                        DeepVisitEachInternal(enumerableValue, action, currentDepth + 1, maxDepth);
+                    }
+                }
             }
 
             return source;
+        }
+
+        private static bool IsKeyValuePair(object item)
+        {
+            if (item == null)
+                return false;
+
+            Type type = item.GetType();
+            return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(KeyValuePair<,>);
         }
     }
 }
