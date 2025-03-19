@@ -592,5 +592,43 @@ namespace StandardExtensions.UnitTests
                 Assert.IsTrue(true);
             }
         }
+
+        [TestMethod]
+        public void Exception_GetAllMessages__when_single_exception__returns_one_message()
+        {
+            var ex = new Exception("Root error");
+
+            var messages = ex.GetAllMessages();
+
+            Assert.AreEqual(1, messages.Count);
+            Assert.AreEqual("Root error", messages[0]);
+        }
+
+        [TestMethod]
+        public void Exception_GetAllMessages__when_nested_exceptions__returns_all_messages()
+        {
+            var innermost = new ArgumentException("Invalid argument");
+            var middle = new InvalidOperationException("Operation failed", innermost);
+            var root = new Exception("Root error", middle);
+
+            var messages = root.GetAllMessages();
+
+            Assert.AreEqual(3, messages.Count);
+            Assert.AreEqual("Root error", messages[0]);
+            Assert.AreEqual("Operation failed", messages[1]);
+            Assert.AreEqual("Invalid argument", messages[2]);
+        }
+
+        [TestMethod]
+        public void Exception_GetAllMessages__when_null_message__skips_empty_messages()
+        {
+            var inner = new Exception(null);
+            var root = new Exception("Root error", inner);
+
+            var messages = root.GetAllMessages();
+
+            Assert.AreEqual(1, messages.Count);
+            Assert.AreEqual("Root error", messages[0]);
+        }
     }
 }

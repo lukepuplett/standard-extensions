@@ -499,7 +499,7 @@ namespace System
             return DateTime.UtcNow.CompareTo(instance.ToUniversalTime()) > 0;
         }
 
-// MOVE THIS
+        // MOVE THIS
 
         public static bool IsNegative(this TimeSpan timeSpan) => timeSpan.Ticks < 0;
 
@@ -1244,6 +1244,31 @@ namespace System
             };
 
             return !unsafeExceptions.Contains(exception.GetType());
+        }
+
+        /// <summary>
+        /// Gets all exception messages from this exception and any inner exceptions.
+        /// </summary>
+        /// <param name="exception">The exception to get messages from.</param>
+        /// <returns>A read-only list of exception messages, starting with the outermost exception.</returns>
+        public static IReadOnlyList<string> GetAllMessages(this Exception exception)
+        {
+            var messages = new List<string>();
+            var current = exception;
+
+            while (current != null)
+            {
+                // Skip the default exception message that gets created when passing null
+                if (!string.IsNullOrEmpty(current.Message) &&
+                    !current.Message.StartsWith("Exception of type") &&
+                    current.Message.Trim().Length > 0)
+                {
+                    messages.Add(current.Message);
+                }
+                current = current.InnerException;
+            }
+
+            return messages.AsReadOnly();
         }
 
         #endregion
